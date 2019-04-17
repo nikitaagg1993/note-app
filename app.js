@@ -1,10 +1,14 @@
 
-const fs = require('fs');
-const _ = require('lodash');
 const notes = require('./notes.js');
 const yargs = require('yargs');
+const { title, body } = require('./config')
 
-const { argv } = yargs;
+const { argv } = yargs
+.command('add', 'Add notes', { title, body})
+.command('list', 'List all notes')
+.command('read', 'Read a node', { title })
+.command('remove', 'Remove a node', { title })
+.help();
 
 const command = argv._[0];
 
@@ -24,7 +28,6 @@ switch(command){
         break;
     }
     case 'read': {
-        console.log('Read Note');
         const note = notes.getNote(argv.title);
         if(note)notes.logNote(note);
         else console.log('Note not found')
